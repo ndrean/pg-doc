@@ -1,36 +1,34 @@
 # Dockerized simple Ruby/Sinatra app connected to a PostgreSQL database
 
 The Sinatra app is dockerized and connected to a Postgres dockerized db.
-It simply displays the connection to the database.
+It simply displays(at port 9000 here) the connection to the database and the content of te base.
 
-# Start up
+The Postgres container has been opened (port 5000 here) for testing purposes.
+
+## Start up
 
 - remove the volume `docker volume rm db-vol`
 - run `docker-compose up --build`.
 - the app is available at `localhost:9000`
-- and the db can be reached at port 5000 (e.g. using DBeaver)
+- the Postgres db can be reached at port 5000 (e.g. using **DBeaver**)
 
 ## Env variables between Postgres, Sinatra
 
-- PG: Postgres uses environment variables: POSTGRES_DB, POSTGRES_USER, POSTGRES_PASSWORD.
-  They are passed to the PG container via the `.env` file.
+- PG: Postgres uses environment variables: `POSTGRES_DB`, `POSTGRES_USER`, `POSTGRES_PASSWORD`. They are passed to the PG container via the `.env` file.
 
 - SINATRA: we use the `dotenv` gem to read the env variables.
-  It should be loaded as early as possible in the **config.ru** file.
+  It should be loaded as early as possible in the **config.ru** file with `require 'dotenv'; Dotenv.load('../.env')`
 
 > We can access the variables with `ENV['PORT']` or `ENV.fetch('PORT') { 9292 }`,
 > the latter raises an exception if not present and also yield a default value.
 
 ## Connection between the app container and the db container
 
-> When using Docker, we pass the env var `POSTGRES_HOST=db` where **db** is the name of the container/service **db** (in **docker-compose.yml**).
+When using Docker, we pass the env var `POSTGRES_HOST=db` where **db** is the name of the postgres service (named in **docker-compose.yml**).
 
-> when we don't use containers (we just do `rackup`), then the host is "localhost"
+> when we don't use containers (i.e. we just do `rackup`), then the host is "localhost"
 
-Indeed, when we use containers, if we use **host: localhost** for the ORM adapter, this
-would mean that we are trying to connect to localhost inside of the app container, and there is nothing there.
-In fact, what we want is to connect to the the "db" container at port 5432, so
-we specify ** host: POSTGRES_HOST = db** where the Postgres service is named **db** here.
+Indeed, when we use containers, if we use **host: localhost** for the ORM adapter, this would mean that we are trying to connect to localhost inside of the app container, and there is nothing there. In fact, what we want is to connect to the the postgres container (at port 5432), so we specify `host: POSTGRES_HOST ( = "db" )` where the Postgres service is named **db** here.
 
 ## DB adapters
 
@@ -57,9 +55,9 @@ We add an `*.sql` script under `/docker-entrypoint-initdb.d` The database
 
 ## DBeaver
 
-![connect to pg](./images/connect-query.png)
 ![connect to db](./images/connect-to-db.png)
 ![select db](./images/select-db.png)
+![connect to pg](./images/connect-query.png)
 
 INSERT INTO public.persons
 (id, firstname, lastname)
