@@ -1,4 +1,7 @@
-log/
-tmp/*
+/log/
+/tmp/*
 .git
 .gitignore
+.bundle
+.env
+.DS_Store

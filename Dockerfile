@@ -9,6 +9,6 @@ FROM postgres:13.2-alpine
 #    export POSTGRES_HOST=db; \
 #    fi
 
-COPY ./initializers/init.sql /docker-entrypoint-initdb.d/
+COPY ./initializers/init.sql /docker-entrypoint-initdb.d/init.sql
 # COPY setup.sh .
 # ENTRYPOINT ["./setup.sh"]

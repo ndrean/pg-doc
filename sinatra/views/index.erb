@@ -4,19 +4,19 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-   <title>Document</title>
+   <title>App</title>
 </head>
 <body>
-   <h4><%= message %></h4>
-   <p>IP: <%= ip %></p>
-   <p>Host: <%= host%></p>
-   <p>path: <%= path %></p>
-   <p>Time: <%= requested_at %></p>
-   <p><%= data %></p>
-   <ul>
-      <% names.each do |name| %>
-         <li><%= name %></li>
+   <h4><%= message %></h4>  
+   <table>
+      <% requests.each do |request| %>
+         <tr>
+            <td><%= request[:ip] %> &nbsp | &nbsp</td>
+            <td><%= request[:host]  %>&nbsp | &nbsp</td>
+            <td><%= request[:req_at] %>&nbsp | &nbsp</td>
+         </tr>
       <% end %>
-   </ul>
+   </table>
 </body>
 </html>
+`

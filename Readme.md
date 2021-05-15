@@ -7,10 +7,10 @@ The Postgres container has been opened (port 5000 here) for testing purposes.
 
 ## Start up
 
-- remove the volume `docker volume rm db-vol`
+- remove the volume `docker volume rm db-vol` et the image `docker image rm db-img` if you want to change the name of the database
 - run `docker-compose up --build`.
 - the app is available at `localhost:9000`
-- the Postgres db can be reached at port 5000 (e.g. using **DBeaver**)
+- the Postgres db can be reached at port 5000 (e.g. using <https://dbeaver.io>)
 
 ## Env variables between Postgres, Sinatra
 

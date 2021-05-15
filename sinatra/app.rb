@@ -5,8 +5,6 @@ require 'logger'
 require 'sequel'
 require "pg"
 
-p ENV['POSTGRES_HOST']
-
 DB = Sequel.postgres(
   ENV['POSTGRES_DB'],
   user: ENV['POSTGRES_USER'],
@@ -18,20 +16,22 @@ DB = Sequel.postgres(
 
 
 table = DB[:persons].freeze
-data = table.all.to_json
 names = table.map(:firstname)
+data = DB[:requests].freeze
 
 get '/' do
+  data.insert(
+    ip: request.ip,   
+    host: Socket.gethostname, 
+    req_at: Time.now.strftime("%H:%M:%S:%L")
+  )
+
   logger.info("#{names}")
+
   erb :index, 
     locals:{ 
       message: "Hello! You are connected to the PostgreSQL database: #{ENV['POSTGRES_DB'] }",
-      host: Socket.gethostname,
-      ip: request.ip,   
-      path: request.path_info,
-      requested_at: Time.now.strftime("%H:%M:%S:%L"),
-      data: data,
-      names: names
+      requests: data.reverse(:req_at)
 
     }
 end

@@ -8,7 +8,7 @@ WORKDIR /app
 
 RUN gem install bundler:2.2.17
 COPY Gemfile* ./
-RUN bundle install && mkdir -p tmps/pids
+RUN bundle check || bundle install
 COPY . ./
 
 
