@@ -1,0 +1,14 @@
+source 'https://rubygems.org'
+
+gem 'sinatra'
+
+# for bundle exec rackup, need puma
+gem 'puma'
+gem 'pg'
+gem 'sequel'
+# gem 'sequel_pg', :require=>'sequel'
+
+# gem 'activerecord'
+gem "dotenv", "~> 2.7"
+
+gem "sinatra-contrib", "~> 2.1"

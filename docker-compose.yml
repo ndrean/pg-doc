@@ -1,0 +1,36 @@
+version: "3.9"
+
+services:
+  app:
+    image: app-img
+    build:
+      context: ./sinatra
+    env_file:
+      - .env
+    ports:
+      - 9000:9292
+    volumes:
+      - ./sinatra:/app:ro
+    depends_on:
+      - db
+    #  stdin_open: true
+    #  tty: true
+    restart: on-failure
+    #  command: ["./initializers/wait-for-pg.sh", "db", "rackup"]
+
+  db:
+    image: db-img
+    build: .
+    env_file:
+      - .env
+    ports:
+      - 5000:5432
+    container_name: db-cont
+    volumes:
+      - db-vol:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U postgres -h 127.0.0.1 "]
+      interval: 5s
+
+volumes:
+  db-vol:
