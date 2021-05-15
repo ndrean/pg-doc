@@ -58,7 +58,7 @@ We add an `*.sql` script under `/docker-entrypoint-initdb.d` The database
 ## DBeaver
 
 ![connect to pg](./images/connect-query.png)
-![connect to db](./images/connect-t-db.png)
+![connect to db](./images/connect-to-db.png)
 ![select db](./images/select-db.png)
 
 INSERT INTO public.persons
