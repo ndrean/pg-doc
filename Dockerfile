@@ -1,7 +1,13 @@
+
+
 FROM postgres:13.2-alpine
-# ENV POSTGRES_PASSWORD=psql 
-# ENV POSTGRES_HOST=localhost
-# ENV POSTGRES_DB=testdb
+
+# ARG DOCKER
+# ENV POSTGRES_HOST=${DOCKER:-localhost}
+
+# RUN if [ "$DOCKER" = "db" ]; then \
+#    export POSTGRES_HOST=db; \
+#    fi
 
 COPY ./initializers/init.sql /docker-entrypoint-initdb.d/
 # COPY setup.sh .

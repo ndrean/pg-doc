@@ -5,11 +5,13 @@ require 'logger'
 require 'sequel'
 require "pg"
 
+p ENV['POSTGRES_HOST']
+
 DB = Sequel.postgres(
   ENV['POSTGRES_DB'],
   user: ENV['POSTGRES_USER'],
-  password: ENV['POSTGRES_PASSWORD'],
-  host: ENV['POSTGRES_HOST'],
+  password: ENV['POSTGRES_PASSWORD'] || "cyberdyne",
+  host: ENV['POSTGRES_HOST'] || "localhost",
   port: 5432,
   logger: Logger.new('/dev/stdout')
 )

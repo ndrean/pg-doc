@@ -5,6 +5,7 @@ services:
     image: app-img
     build:
       context: ./sinatra
+
     env_file:
       - .env
     ports:
@@ -20,7 +21,9 @@ services:
 
   db:
     image: db-img
-    build: .
+    build:
+      context: .
+
     env_file:
       - .env
     ports:

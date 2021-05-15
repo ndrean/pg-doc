@@ -53,21 +53,28 @@ We add an `*.sql` script under `/docker-entrypoint-initdb.d` The database
 
 ## Postgres init:
 
+```sql
+CREATE TABLE IF NOT EXISTS public.persons (
+   id int PRIMARY KEY,
+   firstName varchar,
+   lastName varchar
+   );
+
+INSERT INTO public.persons (id, firstname, lastname) VALUES (1, 'Luke', 'Skywalker'), (2, 'Leia', 'Organa'), (3, 'Han', 'Solo');
+```
+
 ## DBeaver
+
+Since the postgres container has been opened at port 5000, you can connect from your localhost to a selected database; you need to enter the database name and user / password.
 
 ![connect to db](./images/connect-to-db.png)
 ![select db](./images/select-db.png)
 ![connect to pg](./images/connect-query.png)
 
-INSERT INTO public.persons
-(id, firstname, lastname)
-VALUES
-(1, 'Luke', 'Skywalker'),
-(2, 'Leia', 'Organa'),
-(3, 'Han', 'Solo');
+```sh
+docker run -p 5000:5423 --name pg-cont --rm -d -v pg-vol:/var/lib/postgresql/data postgres:13.2-alpine
 
-    docker run -p 5000:5423 --name pg-cont --rm -d -v pg-vol:/var/lib/postgresql/data postgres:13.2-alpine
-    docker container rm pg-cont -f
-    docker exec -it pg-cont psql -U postgres
+docker exec -it pg-cont psql -U postgres
+```
 
 `g_ctl -D /var/lib/postgresql/data -l logfile start`
