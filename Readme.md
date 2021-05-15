@@ -1,7 +1,7 @@
 # Dockerized simple Ruby/Sinatra app connected to a PostgreSQL database
 
 The Sinatra app is dockerized and connected to a Postgres dockerized db.
-It simply displays(at port 9000 here) the connection to the database and the content of te base.
+It simply displays(at port 9000 here) the connection to the database and saves the request (ip and container id) to the database.
 
 The Postgres container has been opened (port 5000 here) for testing purposes.
 
