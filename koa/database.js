@@ -23,6 +23,7 @@ const Request = sequelize.define("requests", {
   host: { type: Sequelize.DataTypes.STRING, allowNull: false },
   ip: { type: Sequelize.DataTypes.STRING, allowNull: false },
   req_at: { type: Sequelize.DataTypes.STRING, allowNull: false },
+  d: { type: Sequelize.DataTypes.BIGINT },
 });
 
 module.exports = {

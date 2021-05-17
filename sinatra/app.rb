@@ -10,7 +10,7 @@ DB = Sequel.postgres(
   user: ENV['POSTGRES_USER'],
   password: ENV['POSTGRES_PASSWORD'] || "cyberdyne",
   host: ENV['POSTGRES_HOST'] || "localhost",
-  port: ENV['POSTGRES_PORT'] || '5432',
+  port: ENV['POSTGRES_PORT'] || '5000',
   logger: Logger.new('/dev/stdout')
 )
 
@@ -24,7 +24,8 @@ get '/' do
     app: "Ruby",
     ip: request.ip,   
     host: Socket.gethostname, 
-    req_at: Time.now.strftime("%a %d %B %Y %H:%M:%S")
+    req_at: Time.now.strftime("%a %d %B %Y %H:%M:%S"),
+    d: (Time.now.to_f*1000).to_i
   )
 
   # logger.info("#{names}")
@@ -32,7 +33,7 @@ get '/' do
   erb :index, 
     locals:{ 
       message: "Hello! You are connected to the PostgreSQL database: #{ENV['POSTGRES_DB'] }",
-      requests: data.reverse(:req_at)
+      requests: data.reverse(:d)
 
     }
 end

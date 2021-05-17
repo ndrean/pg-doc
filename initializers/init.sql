@@ -12,7 +12,8 @@ CREATE TABLE IF NOT EXISTS public.requests (
     app varchar,
     ip varchar,
     host varchar,
-    req_at VARCHAR
+    req_at VARCHAR,
+    d BIGINT
 );
 
 INSERT INTO public.persons 

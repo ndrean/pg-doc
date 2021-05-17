@@ -9,16 +9,17 @@ services:
     env_file:
       - .env
     environment:
-      - NODE_ENV=production
+      - NODE_ENV=development
     ports:
-      - 3000:3000
+      - 4000:3000
+    expose:
+      - 4000
     volumes:
       - ./koa:/node/koa
       - ./koa/node_modules:/node/node_modules
-    expose:
-      - 3000
-    # command: node index.js
-    command: ./node_modules/pm2/bin/pm2-runtime index.js --no-daemon
+    command:
+      ["node", "index.js"]
+      # command: ./node_modules/pm2/bin/pm2-runtime index.js --no-daemon
     depends_on:
       db:
         condition: service_healthy

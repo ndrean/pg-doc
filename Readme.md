@@ -3,9 +3,16 @@
 All apps are dockerized and connected to a Postgres dockerized db.
 It simply displays(at port 9000 for Ruby and port 3000 for Node) the connection to the database and saves the request (ip and container id) to the database.
 
+![result](./image/Screenshot)
 The Postgres container has been opened (port 5000 here) for testing purposes. We use the adapter `pg` and the ORM `'sequel` on top of it for Ruby, and the ORM `sequelize` for Node.js.
 
 ## Start up
+
+Two configurations:
+
+- launch the Postgres container (`docker-compose up db`) and run locally the 2 apps , `/sinatra/rackup` and `/koa nodemon index.js`. You must set `POSTGRES_HOST=localhost` and `POSTGRES_PORT=5000`. This means that the PG container is opened at port 5000 and the two apps should connect to the "localhost" server. The Ruby app is available at port:9292, and the node app at port:3000.
+
+- run everything in containers. Then set `POSTGRES_HOST=db` and `POSTGRES_PORT=5432`, and `docker-compose up --build`. The Ruby app is available at port:9000, and the node app at port:4000.
 
 - remove the volume `docker volume rm db-vol`
 - remove the image `docker image rm db-img` if you want to change the name of the database
