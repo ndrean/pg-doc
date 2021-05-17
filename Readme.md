@@ -1,16 +1,17 @@
-# Dockerized simple Ruby/Sinatra app connected to a PostgreSQL database
+# Dockerized simple Ruby/Sinatra app and node.ks/koa connected to a PostgreSQL database
 
-The Sinatra app is dockerized and connected to a Postgres dockerized db.
-It simply displays(at port 9000 here) the connection to the database and saves the request (ip and container id) to the database.
+All apps are dockerized and connected to a Postgres dockerized db.
+It simply displays(at port 9000 for Ruby and port 3000 for Node) the connection to the database and saves the request (ip and container id) to the database.
 
-The Postgres container has been opened (port 5000 here) for testing purposes.
+The Postgres container has been opened (port 5000 here) for testing purposes. We use the gem `pg` and the ORM `'sequel` on top of it.
 
 ## Start up
 
-- remove the volume `docker volume rm db-vol` et the image `docker image rm db-img` if you want to change the name of the database
+- remove the volume `docker volume rm db-vol`
+- remove the image `docker image rm db-img` if you want to change the name of the database
 - run `docker-compose up --build`.
-- the app is available at `localhost:9000`
-- the Postgres db can be reached at port 5000 (e.g. using <https://dbeaver.io>)
+- the app is available at `port:9000` and `port:3000`
+- the Postgres db is opened at `port 5000` for testing purposes, e.g. using <https://dbeaver.io>.
 
 ## Env variables between Postgres, Sinatra
 
@@ -43,11 +44,25 @@ Indeed, when we use containers, if we use **host: localhost** for the ORM adapte
 We create a table and populate it with a **sql** request in an initiazation script.
 We add an `*.sql` script under `/docker-entrypoint-initdb.d` The database
 
+## Node.js & Koa container
+
+<https://semaphoreci.com/community/tutorials/dockerizing-a-node-js-web-application>
+
+<https://jimfrenette.com/docker/node-js-koa-container/>
+
+> to get IP address, <https://nodejs.org/api/http.html#http_request_socket>
+
+## PM2
+
+<https://pm2.keymetrics.io/docs/usage/docker-pm2-nodejs/>
+
 ## Ruby extras:
 
 - code reloader: we used the extension `require "sinatra/reloader"` (`bundle add sinatra-contrib`)
 
 - `pg_db = URI.parse("postgres://postgres:psql@db/5432")` and the methods `host`, `user`, `password`, `scheme` are available.
+
+- Ruby time class: <https://www.rubyguides.com/2015/12/ruby-time/> and <http://strftime.net/>
 
 `bundle exec irb` and then `Bundler.require` to attach all gems.
 

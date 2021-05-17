@@ -10,23 +10,24 @@ DB = Sequel.postgres(
   user: ENV['POSTGRES_USER'],
   password: ENV['POSTGRES_PASSWORD'] || "cyberdyne",
   host: ENV['POSTGRES_HOST'] || "localhost",
-  port: 5432,
+  port: ENV['POSTGRES_PORT'] || '5432',
   logger: Logger.new('/dev/stdout')
 )
 
 
-table = DB[:persons].freeze
-names = table.map(:firstname)
+# table = DB[:persons].freeze
+# names = table.map(:firstname) <- for logger testing
 data = DB[:requests].freeze
 
 get '/' do
   data.insert(
+    app: "Ruby",
     ip: request.ip,   
     host: Socket.gethostname, 
-    req_at: Time.now.strftime("%H:%M:%S:%L")
+    req_at: Time.now.strftime("%a %d %B %Y %H:%M:%S")
   )
 
-  logger.info("#{names}")
+  # logger.info("#{names}")
 
   erb :index, 
     locals:{ 

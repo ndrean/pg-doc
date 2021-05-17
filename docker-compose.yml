@@ -1,15 +1,38 @@
 version: "3.9"
 
 services:
-  app:
-    image: app-img
+  koa:
+    image: koa-img
+    build:
+      context: ./koa
+    user: "node"
+    env_file:
+      - .env
+    environment:
+      - NODE_ENV=production
+    ports:
+      - 3000:3000
+    volumes:
+      - ./koa:/node/koa
+      - ./koa/node_modules:/node/node_modules
+    expose:
+      - 3000
+    # command: node index.js
+    command: ./node_modules/pm2/bin/pm2-runtime index.js --no-daemon
+    depends_on:
+      db:
+        condition: service_healthy
+
+  sinatra:
+    image: ruby-img
     build:
       context: ./sinatra
-
     env_file:
       - .env
     ports:
       - 9000:9292
+    expose:
+      - 9000
     volumes:
       - ./sinatra:/app:ro
     depends_on:
@@ -24,7 +47,6 @@ services:
     image: db-img
     build:
       context: .
-
     env_file:
       - .env
     ports:

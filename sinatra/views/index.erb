@@ -11,6 +11,7 @@
    <table>
       <% requests.each do |request| %>
          <tr>
+            <td><%= request[:app] %> &nbsp | &nbsp</td>
             <td><%= request[:ip] %> &nbsp | &nbsp</td>
             <td><%= request[:host]  %>&nbsp | &nbsp</td>
             <td><%= request[:req_at] %>&nbsp | &nbsp</td>

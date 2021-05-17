@@ -2,6 +2,7 @@
 /tmp/*
 .git
 .gitignore
-.bundle
+*/.bundle
 .env
 .DS_Store
+*/node_modules
