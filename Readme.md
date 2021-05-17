@@ -1,9 +1,9 @@
-# Dockerized simple Ruby/Sinatra app and node.ks/koa connected to a PostgreSQL database
+# Load-balancing with Docker simple Ruby and Node.js apps connected to a PostgreSQL database
 
 All apps are dockerized and connected to a Postgres dockerized db.
 It simply displays(at port 9000 for Ruby and port 3000 for Node) the connection to the database and saves the request (ip and container id) to the database.
 
-The Postgres container has been opened (port 5000 here) for testing purposes. We use the gem `pg` and the ORM `'sequel` on top of it.
+The Postgres container has been opened (port 5000 here) for testing purposes. We use the adapter `pg` and the ORM `'sequel` on top of it for Ruby, and the ORM `sequelize` for Node.js.
 
 ## Start up
 
