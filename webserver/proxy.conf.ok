@@ -1,0 +1,48 @@
+log_format my_log ' "Request: $Request, Status: $status, Request_uri: $request_uri, Host: $host, Client_IP: $remote_addr, Proxy_IP: $proxy_add_x_forwarded_for, Proxy_Hostname: $proxy_host, Real_IP: $http_x_real_ip';
+
+# Host: $upstream, Cache_Status: $upstream_cache_status  "';
+  # check tail -f access.log
+
+upstream node {
+  server koa:3000;
+}
+
+ upstream ruby {
+   server ruby:9292;
+ }
+
+# When we visit localhost, the nginx service has the mapping 8000->8000 (in the docker-compose.yml)
+# where the nginx container is listening on port 8000; depending upon the url,
+# if the type of file is static, the regex will detect and serve the "root" folder,
+# if "/", it will serve the Node.js app
+# if "/ruby", it will serve the Sinatra app
+server {
+
+  listen 8000;
+  
+
+  access_log /var/log/nginx/access.log my_log; #<- to watch logs
+  
+  root /usr/share/nginx/html;
+  
+  
+  location / {
+    try_files $uri $uri/ @node
+  }
+
+  location @node {
+      # try_files $uri $uri/ @nodesjs;
+    proxy_pass http://node;
+    proxy_set_header X-Real-IP $remote_addr;
+    proxy_set_header Host $host;
+    proxy_set_header X-Forwarded-Proto $scheme;
+    proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+    proxy_pass_header Authorization;
+    # Following is necessary for Websocket support
+    proxy_http_version 1.1;
+    proxy_set_header Upgrade $http_upgrade;
+    proxy_set_header Connection "upgrade";
+  }
+
+}
+

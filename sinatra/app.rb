@@ -19,9 +19,10 @@ DB = Sequel.postgres(
 # names = table.map(:firstname) <- for logger testing
 data = DB[:requests].freeze
 
-get '/' do
+get '/ruby' do
   data.insert(
     app: "Ruby",
+    url: request.url,
     ip: request.ip,   
     host: Socket.gethostname, 
     req_at: Time.now.strftime("%a %d %B %Y %H:%M:%S"),

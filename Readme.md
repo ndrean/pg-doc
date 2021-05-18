@@ -3,7 +3,7 @@
 All apps are dockerized and connected to a Postgres dockerized db.
 It simply displays(at port 9000 for Ruby and port 3000 for Node) the connection to the database and saves the request (ip and container id) to the database.
 
-![result](./images/Screenshot.png)
+![result](./webserver/images/Screenshot.png)
 
 The Postgres container has been opened (port 5000 here) for testing purposes. We use the adapter `pg` and the ORM `'sequel` on top of it for Ruby, and the ORM `sequelize` for Node.js.
 
@@ -90,9 +90,9 @@ INSERT INTO public.persons (id, firstname, lastname) VALUES (1, 'Luke', 'Skywalk
 
 Since the postgres container has been opened at port 5000, you can connect from your localhost to a selected database; you need to enter the database name and user / password.
 
-![connect to db](./images/connect-to-db.png)
-![select db](./images/select-db.png)
-![connect to pg](./images/connect-query.png)
+![connect to db](./webserver/images/connect-to-db.png)
+![select db](./webserver/images/select-db.png)
+![connect to pg](./webserver/images/connect-query.png)
 
 ```sh
 docker run -p 5000:5423 --name pg-cont --rm -d -v pg-vol:/var/lib/postgresql/data postgres:13.2-alpine

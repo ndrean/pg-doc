@@ -13,4 +13,5 @@ COPY . ./
 
 
 EXPOSE 9292
-CMD ["bundle", "exec", "rackup", "--host", "0.0.0.0"]
+# ENTRYPOINT ["./setup.sh"]
+CMD ["bundle", "exec", "rackup -o 0.0.0.0"]

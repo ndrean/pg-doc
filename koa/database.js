@@ -20,6 +20,7 @@ const Request = sequelize.define("requests", {
   //   autoOncrement: true,
   // },
   app: { type: Sequelize.DataTypes.STRING, allowNull: false },
+  url: { type: Sequelize.DataTypes.STRING },
   host: { type: Sequelize.DataTypes.STRING, allowNull: false },
   ip: { type: Sequelize.DataTypes.STRING, allowNull: false },
   req_at: { type: Sequelize.DataTypes.STRING, allowNull: false },

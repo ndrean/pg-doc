@@ -10,6 +10,7 @@ CREATE TABLE IF NOT EXISTS public.persons (
 CREATE TABLE IF NOT EXISTS public.requests (
     id serial PRIMARY KEY,
     app varchar,
+    url varchar,
     ip varchar,
     host varchar,
     req_at VARCHAR,

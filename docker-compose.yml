@@ -1,6 +1,22 @@
 version: "3.9"
 
 services:
+  nginx:
+    build:
+      context: ./webserver
+    ports:
+      - 8000:8000
+    # restart: always
+    depends_on:
+      - koa
+      - ruby
+    environment:
+      - PROXY_UPSTREAM=ruby
+    volumes: # to mount bind the static files for Nginx to serve instead of Puma
+      - ./webserver/proxy.conf:/etc/nginx/conf.d/default.conf
+      - ./webserver/images:/usr/share/nginx/html
+    # - ./sinatra/public:/usr/share/nginx/html
+
   koa:
     image: koa-img
     build:
@@ -21,10 +37,10 @@ services:
       ["node", "index.js"]
       # command: ./node_modules/pm2/bin/pm2-runtime index.js --no-daemon
     depends_on:
-      db:
+      pg:
         condition: service_healthy
 
-  sinatra:
+  ruby:
     image: ruby-img
     build:
       context: ./sinatra
@@ -32,34 +48,36 @@ services:
       - .env
     ports:
       - 9000:9292
+    container_name: ruby
+    # hostname: ruby
     expose:
       - 9000
     volumes:
       - ./sinatra:/app:ro
     depends_on:
-      db:
+      pg:
         condition: service_healthy
     #  stdin_open: true
     #  tty: true
     restart: on-failure
     #  command: ["./initializers/wait-for-pg.sh", "db", "rackup"]
 
-  db:
-    image: db-img
+  pg:
+    image: pg-img
     build:
       context: .
     env_file:
       - .env
     ports:
       - 5000:5432
-    container_name: db-cont
+    container_name: pg
     volumes:
-      - db-vol:/var/lib/postgresql/data
+      - pg-vol:/var/lib/postgresql/data
     healthcheck:
-      test: ["CMD-SHELL", "pg_isready -U postgres -h 127.0.0.1 "]
+      test: ["CMD-SHELL", "pg_isready -U postgres -h pg "]
       interval: 10s
       timeout: 5s
       retries: 5
 
 volumes:
-  db-vol:
+  pg-vol:

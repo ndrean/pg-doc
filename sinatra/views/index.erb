@@ -4,13 +4,30 @@
    <meta charset="UTF-8">
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+   <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
    <title>App</title>
 </head>
 <body>
+   <img src="ruby.svg" height=40 width=40 alt="ruby">
+   <img src="sinatra.svg" height=40 width=40 alt="sinatra">
+   <img src="nodejs.svg" height=40 width=40 alt="nodejs">
+   <img src="docker.webp" height=40 width=40 alt="docker">
+   <img src="nginx.svg" height=40 width=40 alt="nginx">
+      
+
+
    <h4><%= message %></h4>  
    <table>
       <% requests.each do |request| %>
          <tr>
+            <td>
+               <% if request[:app]=='Node' %>
+                  <img src="nodejs.svg" height=20 width=20 alt="ruby">
+               <% else  %>
+                  <img src="ruby.svg" height=20 width=20 alt="sinatra">
+               <% end  %>
+            </td>
+            <td><%= request[:url]%> &nbsp | &nbsp</td>
             <td><%= request[:app] %> &nbsp | &nbsp</td>
             <td><%= request[:ip] %> &nbsp | &nbsp</td>
             <td><%= request[:host]  %>&nbsp | &nbsp</td>
