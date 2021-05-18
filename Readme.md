@@ -1,6 +1,9 @@
-# Load-balancing with Docker simple Ruby and Node.js apps connected to a PostgreSQL database
+# Reverse-proxying dockerized apps with Nginx connected to a PostgreSQL database
 
-All apps are dockerized and connected to a Postgres dockerized db.
+We have two dockerized web-apps, based on Node.js and on Ruby/Sinatra, that save the querried URL into a Postgres database.
+
+![drawing](./webserver/Docker-Nginx-PG-Node-Ruby.svg)
+
 It simply displays(at port 9000 for Ruby and port 3000 for Node) the connection to the database and saves the request (ip and container id) to the database.
 
 ![result](./webserver/images/Screenshot.png)

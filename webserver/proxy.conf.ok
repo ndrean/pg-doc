@@ -16,6 +16,7 @@ upstream node {
 # if the type of file is static, the regex will detect and serve the "root" folder,
 # if "/", it will serve the Node.js app
 # if "/ruby", it will serve the Sinatra app
+
 server {
 
   listen 8000;
