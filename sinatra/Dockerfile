@@ -7,7 +7,7 @@ RUN mkdir /app
 WORKDIR /app
 
 RUN gem install bundler:2.2.17
-COPY Gemfile* ./
+COPY Gemfile ./
 RUN bundle check || bundle install
 COPY . ./
 

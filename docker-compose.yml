@@ -34,7 +34,7 @@ services:
       - ./koa:/node/koa
       - ./koa/node_modules:/node/node_modules
     command:
-      ["node", "index.js"]
+      ["./node_modules/.bin/nodemon", "index.js"]
       # command: ./node_modules/pm2/bin/pm2-runtime index.js --no-daemon
     depends_on:
       pg:

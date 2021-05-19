@@ -5,8 +5,11 @@ require 'logger'
 require 'sequel'
 require "pg"
 
-DB = Sequel.postgres(
-  ENV['POSTGRES_DB'],
+p "Running on port 9292"
+
+DB = Sequel.connect(
+  adapter: 'postgres',
+  database: ENV['POSTGRES_DB'],
   user: ENV['POSTGRES_USER'],
   password: ENV['POSTGRES_PASSWORD'] || "cyberdyne",
   host: ENV['POSTGRES_HOST'] || "localhost",
@@ -14,12 +17,39 @@ DB = Sequel.postgres(
   logger: Logger.new('/dev/stdout')
 )
 
+if DB.test_connection == false
+  begin
+    raise "Postgres connection failed"
+  rescue => e
+      puts e.message
+  end
+end
 
-# table = DB[:persons].freeze
-# names = table.map(:firstname) <- for logger testing
 data = DB[:requests].freeze
 
+get '/ruby/api' do
+    data.insert(
+      app: "Ruby",
+      url: request.url,
+      ip: request.ip,   
+      host: Socket.gethostname, 
+      req_at: Time.now.strftime("%a %d %B %Y %H:%M:%S"),
+      d: (Time.now.to_f*1000).to_i
+    )
+    json({status:"success", json: data.order(:id).last})
+    # since we didn't use a model, the "last method needs the db to be ordered first"
+end
+
+get "/" do
+  redirect "/ruby"
+end
+
 get '/ruby' do
+#### FIRST TESTING ####
+# table = DB[:persons].freeze
+# names = table.map(:firstname) <- for logger testing
+# logger.info("#{names}")
+
   data.insert(
     app: "Ruby",
     url: request.url,
@@ -28,8 +58,6 @@ get '/ruby' do
     req_at: Time.now.strftime("%a %d %B %Y %H:%M:%S"),
     d: (Time.now.to_f*1000).to_i
   )
-
-  # logger.info("#{names}")
 
   erb :index, 
     locals:{ 

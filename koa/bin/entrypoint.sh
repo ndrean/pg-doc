@@ -3,6 +3,9 @@
 # to get the immediate exit code on failure
 set -e
 
-node ./bin/migrate.js
+if [ $NEW_DB = true]; then
+   node ./bin/migrate.js
+fi
+
 
 exec "$@"
