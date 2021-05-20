@@ -23,7 +23,7 @@
     <p>
          <button>Navigate to: <a href="/node" alt="gotnode">Node</a></button>
     </p>
-   <ul>
+   <ul style="list-style-type: none">
       <% data.each do |server|  %>
          <li>
             <% if server[:app]=='Node' %>
@@ -57,6 +57,7 @@
       <% end %>
    </table>
    <script type="text/javascript" src="./reload.js" async></script>
+   <!-- ".js" has to be located in "/public" --> 
 </body>
 </html>
 `

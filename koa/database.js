@@ -11,6 +11,7 @@ const sequelize = new Sequelize({
   operatorsAliases: 0,
   logging: console.log,
   define: { timestamps: false },
+  logQueryParameters: 1, // to show values in the query
 });
 
 sequelize

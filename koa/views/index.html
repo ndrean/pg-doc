@@ -28,7 +28,7 @@
 
    </p>
 
-   <ul>
+   <ul style="list-style-type: none">
       <% data.forEach(request=> { %>
          <li>
             <% if (request && request.app=='Node' ) { %>
@@ -72,6 +72,7 @@
    </table>
 
    <script type="module" src="reload.js" async></script>
+   <!-- ".js" should be located in same folder -->
 </body>
 
 </html>

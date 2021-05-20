@@ -16,16 +16,23 @@ router.get("/node", async (ctx) => {
     d: Number(new Date()),
   });
 
+  // sequelize.query(`INSERT INTO requests (app, url, host, ip, req_at,d)
+  // VALUES ( '${"Node"}, '${ctx.request.href}', '${os.hostname()}',..)`,
+  // { type: sequelize.QueryTypes.INSERT } )
+
   const requests = await Request?.findAll({ order: [["d", "DESC"]] });
 
+  // https://sequelize.org/master/class/lib/sequelize.js~Sequelize.html#instance-method-query
+  // execute a query [results, metada] without the metadata, otherwise shoud use "count[0]"
   const counts = await sequelize.query(
-    "SELECT COUNT(requests.host), requests.host, requests.app FROM requests GROUP BY requests.app, requests.host"
+    "SELECT COUNT(requests.host), requests.host, requests.app FROM requests GROUP BY requests.app, requests.host",
+    { type: sequelize.QueryTypes.SELECT } // to get only the "[results]"
   );
 
   return await ctx.render("index", {
     requests: requests,
     db: process.env.POSTGRES_DB,
-    data: counts[0],
+    data: counts,
   });
 });
 
