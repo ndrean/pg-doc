@@ -1,17 +1,24 @@
 const Sequelize = require("sequelize");
-const connection = require("./connection");
+const { database, username, password, host, port } = require("./connection");
 
 const sequelize = new Sequelize({
-  database: connection.database,
-  username: connection.user,
-  password: connection.password,
-  host: connection.host,
-  port: connection.port,
+  database,
+  username,
+  password,
+  host,
+  port,
   dialect: "postgres",
-  operatorsAliases: false,
-  logging: true,
+  operatorsAliases: 0,
+  logging: console.log,
   define: { timestamps: false },
 });
+
+sequelize
+  .authenticate()
+  .then(() => {
+    console.log("PG-Node connection established");
+  })
+  .catch((err) => console.error(err));
 
 const Request = sequelize.define("requests", {
   // id: {

@@ -1,12 +1,12 @@
 const koaRouter = require("koa-router");
 const router = new koaRouter();
 const os = require("os");
-const db = require("../database.js");
+const { Request, sequelize } = require("../database.js");
 
 router.redirect("/", "/node");
 
 router.get("/node", async (ctx) => {
-  await db.Request?.create({
+  await Request?.create({
     app: "Node",
     url: ctx.request.href,
     host: os.hostname(),
@@ -16,16 +16,21 @@ router.get("/node", async (ctx) => {
     d: Number(new Date()),
   });
 
-  const requests = await db.Request?.findAll({ order: [["d", "DESC"]] });
+  const requests = await Request?.findAll({ order: [["d", "DESC"]] });
+
+  const counts = await sequelize.query(
+    "SELECT COUNT(requests.host), requests.host, requests.app FROM requests GROUP BY requests.app, requests.host"
+  );
 
   return await ctx.render("index", {
     requests: requests,
     db: process.env.POSTGRES_DB,
+    data: counts[0],
   });
 });
 
 router.get("/node/api", async (ctx) => {
-  const lastRequest = await db.Request?.create({
+  const lastRequest = await Request?.create({
     app: "Node",
     url: ctx.request.href,
     host: os.hostname(),

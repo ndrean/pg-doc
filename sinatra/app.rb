@@ -17,14 +17,6 @@ DB = Sequel.connect(
   logger: Logger.new('/dev/stdout')
 )
 
-if DB.test_connection == false
-  begin
-    raise "Postgres connection failed"
-  rescue => e
-      puts e.message
-  end
-end
-
 data = DB[:requests].freeze
 
 get '/ruby/api' do
@@ -62,7 +54,9 @@ get '/ruby' do
   erb :index, 
     locals:{ 
       message: "Hello! You are connected to the PostgreSQL database: #{ENV['POSTGRES_DB'] }",
-      requests: data.reverse(:d)
+      requests: data.reverse(:d),
+      data: data.group_and_count(:host, :app)
 
     }
+
 end

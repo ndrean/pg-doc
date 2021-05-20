@@ -4,7 +4,6 @@ const render = require("koa-ejs");
 const Logger = require("koa-logger");
 const router = require("./routes/routes.js");
 const staticCache = require("koa-static-cache");
-
 const app = new koa();
 
 render(app, {

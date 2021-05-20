@@ -2,29 +2,50 @@
 <html lang="en">
 <head>
    <meta charset="UTF-8">
+   <meta name="Description" content="Toy load balancing Docker app based on Nginx, Node.js, Sinatra  & Postgres">
+   <meta name="theme-color" content="#317EFB" />
    <meta http-equiv="X-UA-Compatible" content="IE=edge">
    <meta name="viewport" content="width=device-width, initial-scale=1.0">
    <link rel="icon" type="image/png" sizes="16x16" href="favicon-16x16.png">
    <title>App</title>
 </head>
 <body>
-   <img src="ruby.svg" height=40 width=40 alt="ruby">
-   <img src="sinatra.svg" height=40 width=40 alt="sinatra">
-   <img src="nodejs.svg" height=40 width=40 alt="nodejs">
-   <img src="docker.webp" height=40 width=40 alt="docker">
-   <img src="nginx.svg" height=40 width=40 alt="nginx">
+   <img src="ruby.svg" height=40 width=40 alt="ruby" loading="lazy">
+   <img src="sinatra.svg" height=40 width=40 alt="sinatra" loading="lazy">
+   <img src="nodejs.svg" height=40 width=40 alt="nodejs" loading="lazy">
+   <img src="docker.webp" height=40 width=40 alt="docker" loading="lazy">
+   <img src="nginx.svg" height=40 width=40 alt="nginx" loading="lazy">
       
 
 
    <h4><%= message %></h4>  
+    <p class="btn-center"> <button id='reload'>Refresh the page: <kbd>Ctrl-R</kbd></button></p>    
+    <p>
+         <button>Navigate to: <a href="/node" alt="gotnode">Node</a></button>
+    </p>
+   <ul>
+      <% data.each do |server|  %>
+         <li>
+            <% if server[:app]=='Node' %>
+                  <img src="nodejs.svg" height=20 width=20 alt="ruby" loading="lazy">
+               <% else  %>
+                  <img src="ruby.svg" height=20 width=20 alt="sinatra"loading="lazy">
+            <% end  %> 
+            &nbsp
+            <%= server[:app] %> &nbsp
+            <%= server[:host] %> &nbsp
+            <%= server[:count] %>
+         </li>
+      <% end %>
+   </ul>
    <table>
       <% requests.each do |request| %>
          <tr>
             <td>
                <% if request[:app]=='Node' %>
-                  <img src="nodejs.svg" height=20 width=20 alt="ruby">
+                  <img src="nodejs.svg" height=20 width=20 alt="ruby" loading="lazy">
                <% else  %>
-                  <img src="ruby.svg" height=20 width=20 alt="sinatra">
+                  <img src="ruby.svg" height=20 width=20 alt="sinatra" loading="lazy">
                <% end  %>
             </td>
             <td><%= request[:url]%> &nbsp | &nbsp</td>
@@ -35,6 +56,7 @@
          </tr>
       <% end %>
    </table>
+   <script type="text/javascript" src="./reload.js" async></script>
 </body>
 </html>
 `
