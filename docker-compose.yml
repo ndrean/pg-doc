@@ -73,7 +73,7 @@ services:
     #  stdin_open: true
     #  tty: true
     # restart: on-failure
-    #  command: ["./initializers/wait-for-pg.sh", "db", "rackup"]
+    command: ["bundle", "exec", "rackup -o 0.0.0.0"]
 
   pg:
     image: postgres:13.2-alpine

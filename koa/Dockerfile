@@ -3,7 +3,7 @@ WORKDIR /node
 COPY package*.json ./
 RUN npm install 
 # ci --only=production
-
+RUN apk add --no-cache bash
 # the .dockerignore contains "node_modules" so we exclude them from the copy since we already build it.
 COPY . .
 

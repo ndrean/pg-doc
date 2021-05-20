@@ -2,7 +2,7 @@ FROM ruby:3.0.1-alpine
 
 # to use the gem "pg", we need some of these libraries
 RUN apk update && apk add build-base postgresql-dev
-
+RUN apk add --no-cache bash
 RUN mkdir /app
 WORKDIR /app
 
@@ -11,7 +11,4 @@ COPY Gemfile ./
 RUN bundle check || bundle install
 COPY . ./
 
-
 EXPOSE 9292
-# ENTRYPOINT ["./setup.sh"]
-CMD ["bundle", "exec", "rackup -o 0.0.0.0"]
