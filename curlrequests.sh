@@ -3,7 +3,7 @@
 main () {
   # for i in {1..100};
   for ((i=1;i<=$1;++i)); do
-    curl  -s http://localhost:8000/ruby > /dev/null
+    curl  -s http://localhost:8000/node > /dev/null
   done
 }
 
