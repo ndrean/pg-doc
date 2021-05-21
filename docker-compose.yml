@@ -6,7 +6,7 @@ services:
       context: ./webserver
     container_name: nginx
     ports:
-      - 8000:8000
+      - 8000:80
     restart: always
     depends_on:
       - koa
