@@ -6,6 +6,13 @@ const { Request, sequelize } = require("../database.js");
 router.redirect("/", "/node");
 
 router.get("/node", async (ctx) => {
+  // if (ctx.ws) {
+  //   const ws = await ctx.ws(); // retrieve socket
+  //   console.log("ws", ws.send("hohoho"));
+  //   // now you have a ws instance, you can use it as you see fit
+  //   return ws.send("hello there");
+  // }
+
   await Request?.create({
     app: "Node",
     url: ctx.request.href,
