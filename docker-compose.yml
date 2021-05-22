@@ -22,7 +22,7 @@ services:
   koa:
     image: koa-img
     deploy:
-      replicas: 2
+      replicas: 1
     build:
       context: ./koa
     # user: "node"
@@ -52,7 +52,7 @@ services:
   ruby:
     image: ruby-img
     deploy:
-      replicas: 2
+      replicas: 1
     build:
       context: ./sinatra
     env_file:
